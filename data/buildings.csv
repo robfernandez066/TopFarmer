@@ -1,0 +1,3 @@
+id,name,unlock_level,gold_cost,build_sec,slots,notes
+flourmill,Flourmill,2,300,300,2,First production building. Unlocks the Sunwheat chain.
+bakery,Bakery,4,1200,900,2,Second tier. Consumes Flour.

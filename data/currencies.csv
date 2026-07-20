@@ -1,0 +1,15 @@
+currency,flow,source_or_sink,amount,notes
+gold,source,Selling crops,see Crops,Baseline income. Deliberately the worst gold/hr option.
+gold,source,Selling goods,see Goods,Better than raw crops after accounting for time.
+gold,source,Standard orders,value x ORDER_GOLD_MULT,Best routine income. Drives engagement with the order board.
+gold,source,Train deliveries,value x TRAIN_BONUS_MULT,"Large, infrequent, long completion window."
+gold,sink,Seeds,see Crops,Small continuous drain.
+gold,sink,Buildings,see Buildings,Major early sink.
+gold,sink,Territory expansion,TBD,Should be the dominant mid-game sink. Not yet specified.
+gold,sink,Decor,TBD,Optional sink. Needed or late-game gold becomes meaningless.
+starlight,source,Order completion,1 @ 15% chance,Globals STARLIGHT_ORDER_CHANCE.
+starlight,source,Harvest drop,1 @ 1% chance,Globals STARLIGHT_HARVEST_CHANCE.
+starlight,source,Train delivery,2 guaranteed,The reliable path. Rewards planning.
+starlight,sink,Growth speedup,TBD,Reserved as a plausible future paid feature (E5). Keep earnable in v1.
+starlight,sink,Extra plot slot,TBD,Same.
+starlight,sink,Storage upgrade,TBD,Same.

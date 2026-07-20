@@ -1,0 +1,14 @@
+Key,Value,Unit,Notes
+GROWTH_TIME_MULT,1.0,multiplier,Scales all crop growth durations. Lower = faster game. The primary pacing lever.
+PRODUCTION_TIME_MULT,1.0,multiplier,Scales all building production durations.
+SELL_PRICE_MULT,1.0,multiplier,Scales all sell prices. Use to inflate/deflate the economy without touching every row.
+XP_MULT,1.0,multiplier,Scales all XP awards.
+ORDER_GOLD_MULT,1.6,multiplier,Order gold reward = value of goods requested x this. Above 1.0 so orders beat raw selling.
+ORDER_XP_MULT,0.25,multiplier,Order XP = goods value x this.
+TRAIN_BONUS_MULT,2.5,multiplier,Large train/airship deliveries pay this instead of ORDER_GOLD_MULT.
+STARLIGHT_ORDER_CHANCE,0.15,probability,Chance a completed standard order also awards 1 Starlight.
+STARLIGHT_HARVEST_CHANCE,0.01,probability,Chance a harvest drops 1 Starlight.
+XP_CURVE_BASE,60.0,xp,XP required for level 2. Feeds the Progression curve.
+XP_CURVE_EXP,1.85,exponent,Level curve steepness. XP to reach level N = BASE x (N-1)^EXP.
+STARTING_GOLD,250.0,gold,New save gold.
+STARTING_PLOTS,4.0,plots,New save plot count.

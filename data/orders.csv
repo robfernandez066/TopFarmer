@@ -1,0 +1,5 @@
+order_id,type,min_level,item1_id,qty1,item2_id,qty2,item3_id,qty3,goods_value,gold_reward,xp_reward,starlight_reward
+ORD_S_01,standard,3,sunwheat,8,,0,,0,48,77,12,0
+ORD_S_02,standard,4,flour,4,sunwheat,6,,0,132,211,33,0
+ORD_S_03,standard,5,bread,3,flour,2,,0,264,422,66,0
+ORD_T_01,train,8,bread,10,ember_oil,4,spice_loaf,2,2400,6000,600,2
