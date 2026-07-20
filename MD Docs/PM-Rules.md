@@ -65,6 +65,15 @@ Every task must be small enough that the Coder can finish it without inventing
 design decisions. If a task requires a design choice, make the choice yourself,
 log it in decisions.md, and reference the DEC number in Notes.
 
+## Human Check — Effective Immediately
+
+Every task must include a "Human check" section written in plain language, no
+jargon, describing how a non-technical reviewer confirms the task is done.
+It must be a specific action with an expected result - a command to run and what
+it should print, or something to do in the game and what should happen.
+If a task genuinely cannot be verified by a non-technical human, say so
+explicitly and state what the human should ask the Coder to demonstrate instead.
+
 ## Active-Task Invariant
 
 `tasklist.md` contains exactly one active task at all times. When the Coder reports it complete, append its completion line to `completedtasks.md` FIRST, read the file back and verify the line is written, THEN clear `tasklist.md`. Never reverse this order. Write the replacement task before ending the loop so the repository never finishes a PM loop with zero or two active tasks.

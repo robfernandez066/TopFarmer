@@ -10,5 +10,9 @@ Acceptance:
 - A first-party headless test demonstrates successful representative queries and expected failure for malformed fixture data; its exact `godot_console` command is recorded in `progress.md`
 - No gameplay number or user-facing string is introduced as a literal in code, scenes, or tests
 - `godot_console --headless --editor --path . --quit` exits successfully
+Human check:
+- Open PowerShell in the TopFarmer project folder
+- Run `godot_console --headless --path . --script res://tests/balance_loader_test.gd`
+- The final line must say `PASS: all 7 balance files loaded; bad test data was rejected`, with no line containing `ERROR` or `FAIL`
 Depends on: none
 Notes: see DEC-003; preserve the existing keep-file CSV import settings and expected red X icons
