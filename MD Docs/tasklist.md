@@ -1,18 +1,16 @@
-TASK-001: Load balance CSVs at startup
+TASK-002: Create a minimal verified project boot scene
 Status: ready
 Complexity: routine
-Files: res://autoload/balance.gd, res://project.godot, res://tests/balance_loader_test.gd
+Files: res://project.godot, res://scenes/main.tscn, res://scripts/main.gd
 Acceptance:
-- `Balance` is registered as an autoload and all seven CSVs in `/data/` parse synchronously at startup without error
-- Globals are queryable by `Key`; Crop, Good, and Building rows are queryable by lowercase snake_case `id`; Progression rows are queryable by integer `level`; Order rows are queryable by `order_id`; Currency rows are queryable by currency and flow
-- Missing files, missing required headers, duplicate IDs/keys, malformed rows, and invalid numeric fields fail loudly with the source file and row in the diagnostic
-- The loader reads files with `FileAccess.open("res://data/<name>.csv")` and does not rely on Godot localization imports
-- A first-party headless test demonstrates successful representative queries and expected failure for malformed fixture data; its exact `godot_console` command is recorded in `progress.md`
-- No gameplay number or user-facing string is introduced as a literal in code, scenes, or tests
-- `godot_console --headless --editor --path . --quit` exits successfully
+- `project.godot` sets `res://scenes/main.tscn` as the main scene without changing the Compatibility renderer, portrait orientation, or existing Balance autoload
+- `main.tscn` contains a single root Node named `Main` with `res://scripts/main.gd` attached; it contains no UI, gameplay, placeholder art, or user-facing text
+- On startup, `main.gd` emits the developer-only diagnostic `TOPFARMER_BOOT_OK` exactly once and introduces no gameplay number or user-facing string
+- `godot_console --headless --path . --quit-after 1` exits successfully, prints `TOPFARMER_BOOT_OK`, and prints no line containing `ERROR` or `FAIL`
+- The existing TASK-001 balance loader test still exits successfully with its required PASS line
 Human check:
 - Open PowerShell in the TopFarmer project folder
-- Run `godot_console --headless --path . --script res://tests/balance_loader_test.gd`
-- The final line must say `PASS: all 7 balance files loaded; bad test data was rejected`, with no line containing `ERROR` or `FAIL`
-Depends on: none
-Notes: see DEC-003; preserve the existing keep-file CSV import settings and expected red X icons
+- Run `godot_console --headless --path . --quit-after 1`
+- The output must contain `TOPFARMER_BOOT_OK`, contain no line with `ERROR` or `FAIL`, and return to the PowerShell prompt by itself
+Depends on: TASK-001
+Notes: see DEC-012. This closes the remaining Phase 0 project-boot gap reported in TASK-001; do not begin Phase 1 art or gameplay work in this task.
