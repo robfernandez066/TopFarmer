@@ -27,6 +27,14 @@ Stop. Report in chat: what closed, what opened, why that task is next.
 
 Never end a loop with zero or two active tasks.
 
+## Dirty Tree at Loop Start
+
+If the working tree is dirty at the start of a loop, inspect the changes.
+If they are limited to config or docs the human plausibly just edited at your
+request, state exactly what needs committing and continue your verification -
+do not abort the whole loop. Abort only if the changes touch game source or
+`/data/`, which suggests both agents ran concurrently.
+
 ## Task Format — Verbatim
 
 TASK-001: Load balance CSVs at startup
