@@ -6,3 +6,5 @@ DEC-005 | 2026-07-20 | Grant zero offline elapsed when automatic time is unavail
 DEC-006 | 2026-07-20 | Store every user-facing v1 string in res://localization/strings.json under dotted lowercase keys; translated localization remains out of scope
 DEC-007 | 2026-07-20 | Use bottom-center ground pivots, upper-left global lighting, down-right separate soft shadows, and fixed master/runtime sprite sizes for the AI art pipeline
 DEC-008 | 2026-07-20 | Express quiet wrongness through altered nighttime ambience, night-only Duskcorn, an unexplained ambient event, and a gradual previous-owner quest chain without using horror framing
+DEC-009 | 2026-07-20 | Second balance tuning pass required after Phase 6; Phase 4 tunes an economy lacking territory sinks (Phase 5) and order/train income (Phase 6), so Phase 4 tuning is explicitly provisional
+DEC-010 | 2026-07-20 | Livestock (I3) needs balance sheet entries and a production mechanic distinct from Phase 3 buildings; author and simulate the data before Phase 7 implementation begins
