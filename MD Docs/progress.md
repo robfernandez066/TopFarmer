@@ -10,3 +10,8 @@ Notes continued: The required editor import generated res://autoload/balance.gd.
 Files touched: res://project.godot, res://scenes/main.tscn, res://scripts/main.gd, res://scripts/main.gd.uid, res://MD Docs/progress.md
 Result: Set the minimal single-Node Main scene as the project boot target and attached a script that emits TOPFARMER_BOOT_OK exactly once. All acceptance criteria verified; `godot_console --headless --path . --quit-after 1` exits successfully with the required diagnostic and no ERROR or FAIL output, and the TASK-001 balance loader test still passes cleanly.
 Notes: No UI, gameplay, placeholder art, user-facing text, gameplay numbers, renderer changes, orientation changes, or Balance autoload changes were introduced.
+
+## TASK-003 | 2026-07-20 | done
+Files touched: res://assets/source/ai/STYLE-GUIDE.md, res://assets/source/ai/GENERATION-RECIPE.md, res://MD Docs/progress.md
+Result: Locked the TF-ART-v1 style guide and AI generation recipe with the approved tone, palette, perspective, lighting, shadows, pivots, sizes, alpha rules, naming, exact prompt templates, metadata, review/export workflow, and admission checklists. All acceptance criteria verified; both files have the exact lock line, all nine palette entries and required phrases are present, both prompts match Notes verbatim, and the target folder contains no generated image files.
+Notes: Project boot and the TASK-001 balance loader test both remain clean. No runtime asset or generated image was added.
