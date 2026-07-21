@@ -1,16 +1,17 @@
-TASK-003: Lock the v1 art style guide and AI generation recipe
+TASK-004: Generate the first Sunwheat visual reference
 Status: ready
 Complexity: routine
-Files: res://assets/source/ai/STYLE-GUIDE.md, res://assets/source/ai/GENERATION-RECIPE.md
+Files: res://assets/source/ai/reference/sunwheat_crop_ready_512.png, res://assets/source/ai/reference/sunwheat_shadow_ready_512.png, res://assets/source/ai/reference/sunwheat_crop_ready_512.metadata.md
 Acceptance:
-- Both files begin with `LOCKED FOR v1 - changes require a new PM decision` and identify the recipe as version `TF-ART-v1`
-- `STYLE-GUIDE.md` defines the cozy-with-quiet-wrongness tone, angled top-down three-quarter perspective, the nine-color palette from DEC-011, outline and shape language, upper-left 35-degree light, separate soft down-right shadows, bottom-center pivots, master/runtime sizes, PNG alpha rules, sprite naming, and an asset rejection checklist
-- `GENERATION-RECIPE.md` contains the exact positive and negative prompt templates from Notes, the allowed placeholder substitutions, required generation metadata, source-review-export steps, and a checklist that must pass before an image becomes a runtime asset
-- The size and pivot rules match `project-context.md` exactly and neither file introduces a conflicting art rule
-- No PNG, JPG, WEBP, or other generated image is added in this task; the recipe must be locked before reference or bulk asset generation
+- Both PNGs are exactly 512x512 with transparent backgrounds and share the same bottom-center ground-contact pivot
+- `sunwheat_crop_ready_512.png` follows TF-ART-v1 and DEC-013: an angled top-down mature Sunwheat cluster with a readable mobile silhouette, palette-led golden seed heads and green leaves, a faint warm inner glow, one subtly dulled dusk-tinted seed head, upper-left lighting, subtle dark-plum outline, no face or eyes, no text, no scenery, no clipped edge, and no baked cast shadow
+- `sunwheat_shadow_ready_512.png` contains only the matching soft neutral-cool shadow on transparency, aligned to the crop pivot and extending down right; it contains no crop color, background, text, or extra object
+- The metadata file records TF-ART-v1, the exact resolved positive prompt and unchanged negative prompt, generation tool/model identifier, generation date, source and shadow filenames, 512x512 canvas, pivot coordinates, shadow-separation method, and every reference-admission checklist result
+- These are source references only; no file is added under `assets/sprites/` and no game scene or code uses them yet
+- The existing project boot and balance-loader checks still pass
 Human check:
-- Open `assets/source/ai/STYLE-GUIDE.md` and `assets/source/ai/GENERATION-RECIPE.md` in any text viewer
-- Both files must start with `LOCKED FOR v1 - changes require a new PM decision`; the style guide must show a nine-color table plus the words `light from upper left` and `shadow down right`; the recipe must show one positive prompt, one negative prompt, and a final `Ready for reference generation` checklist
-- Open `assets/source/ai/` in File Explorer; it must contain the two Markdown files and no generated image files
-Depends on: TASK-002
-Notes: see DEC-007, DEC-008, and DEC-011. Positive prompt template: `TopFarmer game sprite of [SUBJECT], [STATE OR VARIANT], 2D hand-painted fantasy cartoon, cozy rural warmth with a restrained mysterious undertone, angled top-down three-quarter orthographic view, readable mobile silhouette, TopFarmer locked v1 palette, key light from upper left at 35 degrees, subtle dark-plum outline, isolated on transparent background, centered on a [MASTER WIDTH] by [MASTER HEIGHT] canvas, bottom-center ground contact aligned, no text`. Negative prompt template: `photorealism, 3D render, anime, pixel art, horror, gore, neon, glossy plastic, fisheye, front view, side view, inconsistent perspective, multiple objects, scenery, background, baked cast shadow, cropped edges, text, watermark`.
+- Open both PNGs in an image viewer with transparency visible and place them side by side at the same zoom
+- The crop must look like warm magical wheat viewed from above at an angle, with one slightly dull purple-brown seed head but nothing scary; it must have no background or shadow baked into it
+- The shadow image must show only a soft shadow falling down and right from the same ground point; in Windows Properties, both images must report 512 by 512 pixels
+Depends on: TASK-003
+Notes: see DEC-007, DEC-008, DEC-011, and DEC-013. Resolve the locked positive prompt with SUBJECT = `Sunwheat, a magical wheat analogue with plump golden seed heads, a faint warm inner glow, healthy green leaves, and one subtly dulled dusk-tinted seed head`; STATE OR VARIANT = `mature harvest-ready crop cluster`; MASTER WIDTH = `512`; MASTER HEIGHT = `512`. Use the negative prompt unchanged. The shadow must be separated from the approved crop source, not generated as a different plant silhouette.
