@@ -20,12 +20,13 @@ LOCKED FOR v1 - changes require a new PM decision
 - Alpha: lossless straight-alpha RGBA PNG; fully transparent pixels have zero RGB
 - Shared bottom-center ground-contact point: `(512, 897)` pixels, origin at canvas top left
 - Color occupied bounds above alpha 8: `(188, 132)` through `(833, 897)` inclusive
-- Shadow occupied bounds above alpha 8: `(243, 872)` through `(795, 992)` inclusive
+- Replacement shadow occupied bounds above alpha 8: `(225, 832)` through `(802, 954)` inclusive
 - Color SHA-256: `01FAAAFE6080CCC8A2FD0E87DFA6FD6F32CA7B3C10204172694A1A1DFCDA6DD4`
-- Shadow SHA-256: `EB3367142B55B5BF52E1D19E479EF0083DCF079FD2165B6D6B7067697962301E`
+- Replacement shadow SHA-256: `4B8B3448B91B8D802052E52329BB30A11D45BE697E6E0A937E69F6D59EF0316B`
+- Superseded commit `2bf679e` shadow SHA-256: `EB3367142B55B5BF52E1D19E479EF0083DCF079FD2165B6D6B7067697962301E`; Human-check rejected under DEC-021 because its broad lower slab made the building appear to float
 - Reviewer: Coder Agent
 - Review date (UTC): `2026-07-21`
-- Disposition: accepted source reference only; not admitted as a runtime asset
+- Disposition: approved color preserved; DEC-021 replacement shadow passes Coder composite review and is ready for Human check; source reference only, not admitted as a runtime asset
 
 ## Exact Resolved Positive Prompt
 
@@ -43,9 +44,13 @@ The accepted candidate used a uniform generated magenta key sampled as `#f503f2`
 
 ## Separate Shadow and Alignment Method
 
-The shadow was derived deterministically from the accepted final color alpha, not independently generated. The shared ground-contact point is `(512, 897)`. Color alpha was compressed toward that point and projected down and right, scaled to partial alpha, and softened with an `11`-pixel Gaussian blur. A low soft contact ellipse centered on the same point was added with a `10`-pixel Gaussian blur. The two alpha components were combined and rendered only in neutral cool gray RGB `(83, 86, 101)` with maximum alpha `107`.
+The broad projected shadow committed in `2bf679e` was rejected by the Human check and DEC-021 because it read as a detached lower slab. It is not retained in the replacement PNG.
 
-The shadow file contains no color-sprite pixels or copied building color. Both PNGs use the same canvas and ground-contact coordinate; the color is opaque enough at `(512, 897)` to define the contact and the shadow is partially opaque there, so layering the color over the shadow does not jump or drift.
+The replacement was constructed deterministically without changing, moving, scaling, cropping, or regenerating the approved color sprite. Its tight contact component is an approximately `560x72` ellipse spanning pre-blur coordinates x=`232..792`, y=`842..914`, centered at `(512, 878)`, filled to alpha `84`, and softened with an `8`-pixel Gaussian blur. This begins behind and overlaps the stone foundation instead of starting below it. The shared bottom-center ground-contact point remains `(512, 897)`, where replacement shadow alpha is `83`.
+
+A subordinate cast component uses a lighter alpha `28` ellipse at x=`352..806`, y=`864..944`, softened with an `18`-pixel Gaussian blur. It overlaps the contact component continuously while shifting its centroid down and right to approximately `(579, 904)`, so it cannot become a detached lobe. The components are combined by maximum alpha and rendered only in neutral cool gray RGB `(83, 86, 101)`. Nontransparent alpha fades continuously from `1` through a peak of `84`; every pixel remains partially transparent.
+
+The shadow file contains no color-sprite pixels or copied building color. A temporary review composite placed the unchanged color over the replacement shadow at identical `1024x1024` coordinates on the approved meadow. The contact remained visible beneath the foundation with no transparent gap, while the lighter attached extension read down and right without forming a platform or puddle.
 
 ## Ready for Reference Generation Checklist Results
 
@@ -67,6 +72,10 @@ The shadow file contains no color-sprite pixels or copied building color. Both P
 - [x] Upper-left form lighting, subtle dark-plum outline, locked-palette control, cozy warmth, and restrained magical tone are present.
 - [x] The color sprite contains no baked cast/contact shadow, scenery, background, opaque matte, text, watermark, copied Stardew Valley design, neon, or horror framing.
 - [x] The shadow contains only soft partial-alpha neutral cool gray, falls down and right, and has no building color, background, hard black edge, text, or watermark.
+- [x] The original `2bf679e` broad shadow is marked Human-check rejected under DEC-021 and is absent from the replacement file.
+- [x] The replacement contact is centered at `(512, 878)`, overlaps the foundation across its prescribed pre-blur bounds, peaks at alpha `84`, and fades continuously.
+- [x] The lighter cast remains attached and subordinate; it does not form a platform, puddle, second footprint, or detached lobe.
 - [x] The color and shadow share bottom-center ground contact `(512, 897)` and remain clear of all canvas edges.
+- [x] The unchanged color SHA-256 remains `01FAAAFE6080CCC8A2FD0E87DFA6FD6F32CA7B3C10204172694A1A1DFCDA6DD4`.
 - [x] Both lowercase snake_case filenames follow the locked source naming pattern.
 - [x] No file was added under `assets/sprites/`, and no game scene or code references either source image.
