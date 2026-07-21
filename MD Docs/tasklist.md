@@ -1,21 +1,21 @@
-TASK-007: Generate the Sunwheat seed-bag UI visual reference
+TASK-008: Commit the licensed daytime-farm music reference
 Status: ready
 Complexity: routine
-Files: create res://assets/source/ai/reference/sunwheat_ui_icon_seed_bag_256.png, res://assets/source/ai/reference/sunwheat_ui_icon_seed_bag_preview_512x256.png, res://assets/source/ai/reference/sunwheat_ui_icon_seed_bag_256.metadata.md
+Files: create res://assets/audio/reference/day_farm_a_small_fire_will_do.wav and its Godot import sidecar, create res://assets/licenses/audio/day_farm_a_small_fire_will_do.md
 Acceptance:
-- `sunwheat_ui_icon_seed_bag_256.png` is a lossless straight-alpha PNG on an exact 256x256 transparent canvas with clean antialiased edges, fully transparent corners, comfortable margins, and no opaque background or matte
-- The icon matches DEC-023: one compact moss-green cloth seed pouch, warm tan tied cord, one simple sun-gold wheat-head stitch, and one tiny subordinate dusk-purple repair thread
-- The pouch is a single centered mobile-readable silhouette with restrained hand-painted detail, subtle dark-plum outline, and upper-left form lighting; it contains no words, letters, numbers, extra objects, face, scenery, button frame, cast shadow, glow, watermark, copied Stardew Valley design, or horror imagery
-- The approved 256x256 source downscales with Lanczos to exact 128x128 and 64x64 versions in memory; at both sizes the pouch, tied top, and gold wheat symbol remain recognizable without zooming, while the tiny purple repair thread may remain a subtle accent rather than a required identifying feature
-- `sunwheat_ui_icon_seed_bag_preview_512x256.png` is a diagnostic presentation made only from the approved source and its 128x128 and 64x64 Lanczos reductions, placed without stretching on one plain locked-palette background and labeled only in the metadata, not with text inside the PNG
-- The preview places the 256x256 source at x=0, the 128x128 reduction centered in x=288..415 and y=64..191, and the 64x64 reduction centered in x=432..495 and y=96..159; all remaining preview pixels use solid highlight `#F6E7C1` so transparency and edge quality are visible
-- The metadata records `TF-ART-v1.1`, data ID `sunwheat`, UI-icon role, seed-bag state, exact resolved positive and negative prompts, generation tool/model and available version, UTC generation date, seed and parameters or their unavailability, source candidate, dimensions, straight-alpha preparation, preview construction, SHA-256 values, reviewer, review date, disposition, and every admission-check result
-- These files are source references only; no file is added under `assets/sprites/` and no game scene or code uses them yet
+- Download the exact `a_small_fire_will_do.wav` file linked by `https://opengameart.org/content/a-small-fire-will-do-calming-loop` at `https://opengameart.org/sites/default/files/a_small_fire_will_do.wav`; save it as `day_farm_a_small_fire_will_do.wav` without transcoding, trimming, normalizing, tagging, resampling, looping edits, or any other byte change
+- The committed WAV is lossless and decodes completely without error; record its SHA-256, byte size, duration, channel count, sample rate, bit depth or sample format, codec, and measured peak level in the license record and Coder report
+- Listening from beginning to end confirms a calm, restrained acoustic village/home loop suitable for ordinary daytime farm play, with no speech, lyrics, harsh percussion, combat cue, horror sound, UI sound, clipping, corruption, or sudden volume jump
+- Two consecutive unmodified playthroughs have no obvious click, pop, or long silence at the restart boundary; this is a reference-loop review only and does not authorize editing the source
+- `day_farm_a_small_fire_will_do.md` records the exact title, creator name `Cal McEachern`, OpenGameArt username `Trex0n`, source-page URL, direct-download URL, UTC access date, original filename, committed filename, SHA-256, technical properties, unmodified status, intended reference role, and the source page's optional credit request
+- The license record identifies `CC0 1.0 Universal`, links `https://creativecommons.org/publicdomain/zero/1.0/`, states that the OpenGameArt source page displays the track under CC0, and records the planned credit `A Small Fire Will Do by Cal McEachern (Trex0n) - CC0 1.0`
+- The license record distinguishes verified page facts from TopFarmer's review notes and does not claim that Creative Commons or the creator endorses TopFarmer
+- The WAV is a source reference only; no runtime-converted audio is created and no game scene, resource, script, bus, autoload, or project setting references it yet
 - The existing project boot and balance-loader checks still pass
 Human check:
-- Open `sunwheat_ui_icon_seed_bag_preview_512x256.png` at its normal size; it should show the same seed bag three times, getting smaller from left to right, on a light cream background
-- Without zooming in, confirm the middle and smallest versions still look like a tied green seed bag with a simple gold wheat mark; reject it if the smallest version looks like an unclear blob or unrelated object
-- Confirm there is no writing, number, button border, scenery, or shadow in the picture and that the tiny purple thread does not overpower the gold wheat mark
-- In Windows, right-click `sunwheat_ui_icon_seed_bag_256.png`, choose Properties, then Details; it should report 256 by 256 pixels
-Depends on: TASK-006
-Notes: see DEC-007, DEC-008, DEC-015, DEC-017, DEC-022, and DEC-023. Resolve the exact TF-ART-v1.1 positive prompt with SUBJECT = `sunwheat seed bag UI icon, a compact moss-green cloth pouch tied with warm tan cord and marked by one simple sun-gold wheat-head stitch, with one tiny dusk-purple repair thread`; STATE OR VARIANT = `default plant-selection symbol`; MASTER WIDTH = `256`; MASTER HEIGHT = `256`. Use the locked negative prompt unchanged. Use approved Sunwheat, meadow, and Flourmill references only for palette, brushwork, outline, and lighting consistency. A UI icon has no ground contact and requires no separate shadow. The preview is diagnostic only and must be assembled from the final source and its exact reductions, not independently generated; do not create runtime exports in this task.
+- Double-click `day_farm_a_small_fire_will_do.wav` and listen through the whole track; it should be calm acoustic background music with no voice, frightening sound, harsh hit, distortion, or broken playback
+- Turn on Repeat in the music player and listen through one restart from the end back to the beginning; there should be no sharp click, pop, sudden loud jump, or long silent pause
+- Open `assets/licenses/audio/day_farm_a_small_fire_will_do.md`; it should name Cal McEachern and Trex0n, link the OpenGameArt page and CC0 1.0 page, say the file is unmodified, and include the planned credit line
+- If the track feels distracting rather than suitable for relaxed daytime farming, reject it and tell the PM what you heard; do not approve it only because the file and license checks pass
+Depends on: TASK-007
+Notes: see DEC-008, DEC-025, and DEC-026. This source is the daytime-farm music reference only; DEC-008 keeps quiet wrongness in altered nighttime ambience and later night content, so the daytime reference should remain warm and calm. Credit the creator even though CC0 does not require attribution because the source page requests it. If either exact URL is unavailable or the downloaded bytes cannot be verified, report a blocker and do not substitute another track.

@@ -5,3 +5,4 @@ TASK-003 | Start 2026-07-20 | End 2026-07-20 | Lock the v1 art style guide and A
 TASK-004 | Start 2026-07-20 | End 2026-07-21 | Generate the first Sunwheat visual reference
 TASK-005 | Start 2026-07-21 | End 2026-07-21 | Correct the art recipe and meadow terrain to the square-grid overhead perspective
 TASK-006 | Start 2026-07-21 | End 2026-07-21 | Correct the Flourmill shadow so the building is visibly grounded
+TASK-007 | Start 2026-07-21 | End 2026-07-21 | Generate the Sunwheat seed-bag UI visual reference
