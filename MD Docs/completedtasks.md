@@ -20,3 +20,4 @@ TASK-018 | Start 2026-07-21 | End 2026-07-21 | Integrate the mature Sunwheat pla
 TASK-019 | Start 2026-07-21 | End 2026-07-21 | Add the data-driven FarmPlot crop lifecycle
 TASK-020 | Start 2026-07-21 | End 2026-07-21 | Add direct-touch FarmPlot activation feedback
 TASK-021 | Start 2026-07-21 | End 2026-07-21 | Connect FarmPlot activation to plant, harvest, and smart replant
+TASK-022 | Start 2026-07-21 | End 2026-07-21 | Add a portable monotonic in-session UTC clock
