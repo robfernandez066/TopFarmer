@@ -9,18 +9,18 @@ LOCKED FOR v1 - changes require a new PM decision
 - Asset role: `crop`
 - State or variant: `mature harvest-ready crop cluster`
 - Generation tool/model identifier: OpenAI built-in `image_gen` / built-in imagegen backend; the exact backend model ID was not exposed by the tool response
-- Generation date (UTC): `2026-07-21T01:46:36Z`
+- Generation date (UTC): `2026-07-21T09:53:23Z`
 - Seed and reproducibility parameters: not exposed by the built-in tool
-- Original generated candidate: `exec-efa7b51d-e019-4f9b-be21-5d13eda604cd.png`
+- Original generated candidate: `exec-c42ec952-53f2-4541-b66f-05d6438fe8f2.png`
 - Original delivered dimensions: `1254x1254`
 - Source filename: `sunwheat_crop_ready_512.png`
 - Shadow filename: `sunwheat_shadow_ready_512.png`
 - Final canvas: `512x512` pixels for both PNGs
 - Alpha: straight-alpha transparent PNG
-- Shared pivot coordinates: `(256, 469)` pixels, origin at canvas top left
+- Shared pivot coordinates: `(256, 465)` pixels, origin at canvas top left
 - Reviewer: Coder Agent
 - Review date (UTC): `2026-07-21`
-- Disposition: accepted as the first source reference; not admitted as a runtime asset
+- Disposition: accepted replacement source reference after DEC-014 rework; not admitted as a runtime asset
 
 ## Exact Resolved Positive Prompt
 
@@ -34,7 +34,7 @@ LOCKED FOR v1 - changes require a new PM decision
 
 The crop candidate was generated without a cast or contact shadow on a flat magenta chroma-key background. The locked chroma-removal helper sampled the border, applied a soft matte and despill, and produced straight alpha. The approved crop canvas was downsampled with Lanczos to `512x512`.
 
-The shadow was separated deterministically from the approved crop alpha rather than generated as a different plant silhouette. The crop alpha was projected from the shared `(256, 469)` ground-contact pivot with a compressed affine cast down and right, softened with a Gaussian blur, combined with a soft contact component at the same pivot, and rendered in neutral cool gray RGB `(83, 86, 101)` at partial alpha. No crop color or extra object was copied into the shadow PNG.
+The shadow was separated deterministically from the approved replacement crop alpha rather than generated as a different plant silhouette. The crop alpha was projected from the shared `(256, 465)` ground-contact pivot with a compressed affine cast down and right, softened with a Gaussian blur, combined with a soft contact component at the same pivot, and rendered in neutral cool gray RGB `(83, 86, 101)` at partial alpha. No crop color or extra object was copied into the shadow PNG. The rejected silhouette from commit `57c9237` is not retained in either reference PNG.
 
 ## Ready for Reference Generation Checklist Results
 
@@ -48,8 +48,11 @@ The shadow was separated deterministically from the approved crop alpha rather t
 ## Reference Admission Checklist Results
 
 - [x] Both files are lossless straight-alpha PNGs on exact `512x512` canvases.
-- [x] Both files use the shared bottom-center ground-contact pivot `(256, 469)`.
-- [x] The crop uses the angled top-down three-quarter presentation and a clear mobile silhouette.
+- [x] Both files use the shared bottom-center ground-contact pivot `(256, 465)`.
+- [x] The crop uses an obvious angled top-down three-quarter presentation and a clear mobile silhouette.
+- [x] The viewer can see top-facing surfaces on the seed heads and leaves.
+- [x] The stalks are foreshortened, overlap in depth, and converge into a compact oval ground-plane footprint.
+- [x] The crop reads as a low planted farm mound, not a front-facing bouquet, tall fan, or upright display arrangement.
 - [x] The crop is palette-led with golden seed heads, healthy green leaves, a faint warm inner glow, and exactly one dulled dusk-tinted seed head.
 - [x] Light reads from the upper left at approximately 35 degrees with a subtle dark-plum outline.
 - [x] The crop has no face, eyes, text, scenery, clipped edge, background, contact shadow, or baked cast shadow.
