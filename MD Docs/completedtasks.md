@@ -11,3 +11,4 @@ TASK-009 | Start 2026-07-21 | End 2026-07-21 | Commit the licensed primary-touch
 TASK-010 | Start 2026-07-21 | End 2026-07-21 | Export the approved meadow terrain tile for runtime
 TASK-011 | Start 2026-07-21 | End 2026-07-21 | Correct the Sunwheat shadow and runtime pair
 TASK-012 | Start 2026-07-21 | End 2026-07-21 | Export the approved Sunwheat seed-bag UI icon for runtime
+TASK-013 | Start 2026-07-21 | End 2026-07-21 | Generate the empty tilled-soil plot asset
