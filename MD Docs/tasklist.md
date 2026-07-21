@@ -1,24 +1,21 @@
-TASK-006: Correct the Flourmill shadow so the building is visibly grounded
+TASK-007: Generate the Sunwheat seed-bag UI visual reference
 Status: ready
 Complexity: routine
-Files: preserve res://assets/source/ai/reference/flourmill_building_idle_1024.png unchanged, replace res://assets/source/ai/reference/flourmill_shadow_idle_1024.png and its import sidecar, update res://assets/source/ai/reference/flourmill_building_idle_1024.metadata.md
+Files: create res://assets/source/ai/reference/sunwheat_ui_icon_seed_bag_256.png, res://assets/source/ai/reference/sunwheat_ui_icon_seed_bag_preview_512x256.png, res://assets/source/ai/reference/sunwheat_ui_icon_seed_bag_256.metadata.md
 Acceptance:
-- `flourmill_building_idle_1024.png` remains byte-for-byte unchanged from commit `2bf679e`, including SHA-256 `01FAAAFE6080CCC8A2FD0E87DFA6FD6F32CA7B3C10204172694A1A1DFCDA6DD4`; this rework is shadow-only
-- `flourmill_shadow_idle_1024.png` is replaced with a lossless 1024x1024 straight-alpha PNG containing only neutral cool-gray shadow pixels, with fully transparent corners and no building color, background, hard black edge, text, or watermark
-- The replacement has a narrow soft contact component centered at `(512, 878)`, approximately 560 pixels wide by 72 pixels high before blur, so it begins behind the mill's foundation and overlaps the visible base rather than starting below it
-- The contact component spans the foundation from approximately x=232 through x=792 and remains present behind the base between y=842 and y=914; when the unchanged color sprite is placed above it at identical canvas coordinates, there is no transparent gap between the foundation and its shadow
-- A softer, lighter cast component extends down and right from the contact component, but it is visually subordinate: it must not form a broad platform, puddle, detached slab, second footprint, or lobe separated from the foundation
-- Shadow opacity peaks between alpha 70 and 90 at the tight contact area and fades continuously outward; the down-right extension is less opaque than the contact area, and all pixels remain partially transparent
-- The color and replacement shadow retain the shared bottom-center ground-contact point `(512, 897)` without moving, scaling, cropping, or regenerating the approved color sprite
-- The Coder's report includes a temporary composite made by layering the unchanged color PNG over the replacement shadow PNG at identical 1024x1024 canvas coordinates, plus a close view of the foundation; no diagnostic composite needs to be committed
-- The composite visibly rests on the shadow along the foundation and does not appear to hover, while the shadow still reads as cast down and right under upper-left lighting
-- The metadata marks the commit `2bf679e` shadow as Human-check rejected under DEC-021 and records the replacement shadow construction, alpha range, occupied bounds, SHA-256, shared contact coordinate, review result, and unchanged color SHA-256
+- `sunwheat_ui_icon_seed_bag_256.png` is a lossless straight-alpha PNG on an exact 256x256 transparent canvas with clean antialiased edges, fully transparent corners, comfortable margins, and no opaque background or matte
+- The icon matches DEC-023: one compact moss-green cloth seed pouch, warm tan tied cord, one simple sun-gold wheat-head stitch, and one tiny subordinate dusk-purple repair thread
+- The pouch is a single centered mobile-readable silhouette with restrained hand-painted detail, subtle dark-plum outline, and upper-left form lighting; it contains no words, letters, numbers, extra objects, face, scenery, button frame, cast shadow, glow, watermark, copied Stardew Valley design, or horror imagery
+- The approved 256x256 source downscales with Lanczos to exact 128x128 and 64x64 versions in memory; at both sizes the pouch, tied top, and gold wheat symbol remain recognizable without zooming, while the tiny purple repair thread may remain a subtle accent rather than a required identifying feature
+- `sunwheat_ui_icon_seed_bag_preview_512x256.png` is a diagnostic presentation made only from the approved source and its 128x128 and 64x64 Lanczos reductions, placed without stretching on one plain locked-palette background and labeled only in the metadata, not with text inside the PNG
+- The preview places the 256x256 source at x=0, the 128x128 reduction centered in x=288..415 and y=64..191, and the 64x64 reduction centered in x=432..495 and y=96..159; all remaining preview pixels use solid highlight `#F6E7C1` so transparency and edge quality are visible
+- The metadata records `TF-ART-v1.1`, data ID `sunwheat`, UI-icon role, seed-bag state, exact resolved positive and negative prompts, generation tool/model and available version, UTC generation date, seed and parameters or their unavailability, source candidate, dimensions, straight-alpha preparation, preview construction, SHA-256 values, reviewer, review date, disposition, and every admission-check result
 - These files are source references only; no file is added under `assets/sprites/` and no game scene or code uses them yet
 - The existing project boot and balance-loader checks still pass
 Human check:
-- In the Coder's report, inspect the combined picture where the mill is placed directly over the replacement shadow without either image being moved or resized
-- Look closely along the stone foundation: the soft shadow must begin underneath it with no clear gap, so the mill looks planted on the ground rather than floating
-- The shadow may trail gently toward the lower right, but it must not look like a separate gray platform, puddle, or large detached blob below the mill
-- Confirm the report says both files are still 1024 by 1024 pixels, the shared ground point is `(512, 897)`, and the building file itself was not changed
-Depends on: TASK-005
-Notes: see DEC-007, DEC-017, DEC-020, and DEC-021. The Human check overrides the Coder's earlier technical acceptance: matching a pivot coordinate is insufficient when the visible composite floats. Preserve the approved color file exactly. Construct the replacement from a tight contact shadow under the foundation plus a restrained down-right cast extension; do not regenerate the building, reuse the rejected broad shadow, or create runtime exports.
+- Open `sunwheat_ui_icon_seed_bag_preview_512x256.png` at its normal size; it should show the same seed bag three times, getting smaller from left to right, on a light cream background
+- Without zooming in, confirm the middle and smallest versions still look like a tied green seed bag with a simple gold wheat mark; reject it if the smallest version looks like an unclear blob or unrelated object
+- Confirm there is no writing, number, button border, scenery, or shadow in the picture and that the tiny purple thread does not overpower the gold wheat mark
+- In Windows, right-click `sunwheat_ui_icon_seed_bag_256.png`, choose Properties, then Details; it should report 256 by 256 pixels
+Depends on: TASK-006
+Notes: see DEC-007, DEC-008, DEC-015, DEC-017, DEC-022, and DEC-023. Resolve the exact TF-ART-v1.1 positive prompt with SUBJECT = `sunwheat seed bag UI icon, a compact moss-green cloth pouch tied with warm tan cord and marked by one simple sun-gold wheat-head stitch, with one tiny dusk-purple repair thread`; STATE OR VARIANT = `default plant-selection symbol`; MASTER WIDTH = `256`; MASTER HEIGHT = `256`. Use the locked negative prompt unchanged. Use approved Sunwheat, meadow, and Flourmill references only for palette, brushwork, outline, and lighting consistency. A UI icon has no ground contact and requires no separate shadow. The preview is diagnostic only and must be assembled from the final source and its exact reductions, not independently generated; do not create runtime exports in this task.
