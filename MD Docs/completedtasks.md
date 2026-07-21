@@ -16,3 +16,4 @@ TASK-014 | Start 2026-07-21 | End 2026-07-21 | Generate the growing Sunwheat run
 TASK-015 | Start 2026-07-21 | End 2026-07-21 | Revise the art perspective contract to TF-ART-v1.2
 TASK-016 | Start 2026-07-21 | End 2026-07-21 | Select a naturally rooted mature Sunwheat source as a temporary gameplay placeholder
 TASK-017 | Start 2026-07-21 | End 2026-07-21 | Export the temporary mature Sunwheat placeholder pair
+TASK-018 | Start 2026-07-21 | End 2026-07-21 | Integrate the mature Sunwheat placeholder into FarmPlot READY
