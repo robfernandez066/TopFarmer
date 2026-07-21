@@ -8,11 +8,11 @@ enum VisualState {
 
 const GROWING_SHADOW_TEXTURE := preload("res://assets/sprites/crops/sunwheat_shadow_growing_256.png")
 const GROWING_COLOR_TEXTURE := preload("res://assets/sprites/crops/sunwheat_crop_growing_256.png")
-const READY_SHADOW_TEXTURE := preload("res://assets/sprites/crops/sunwheat_shadow_ready_256.png")
-const READY_COLOR_TEXTURE := preload("res://assets/sprites/crops/sunwheat_crop_ready_256.png")
+const READY_SHADOW_TEXTURE := preload("res://assets/sprites/crops/sunwheat_shadow_ready_placeholder_256.png")
+const READY_COLOR_TEXTURE := preload("res://assets/sprites/crops/sunwheat_crop_ready_placeholder_256.png")
 const EMPTY_CROP_POSITION := Vector2(-128.0, -232.5)
 const GROWING_CROP_POSITION := Vector2(-127.0, -232.5)
-const READY_CROP_POSITION := Vector2(-140.0, -232.5)
+const READY_CROP_POSITION := Vector2(-128.0, -232.5)
 
 @export var initial_visual_state: VisualState = VisualState.EMPTY
 

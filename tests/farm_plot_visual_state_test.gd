@@ -5,12 +5,14 @@ const FARM_PLOT_SCENE := preload("res://scenes/farm/farm_plot.tscn")
 const PLOT_BASE_PATH := "res://assets/sprites/plots/tilled_soil_plot_empty_256.png"
 const GROWING_SHADOW_PATH := "res://assets/sprites/crops/sunwheat_shadow_growing_256.png"
 const GROWING_COLOR_PATH := "res://assets/sprites/crops/sunwheat_crop_growing_256.png"
-const READY_SHADOW_PATH := "res://assets/sprites/crops/sunwheat_shadow_ready_256.png"
-const READY_COLOR_PATH := "res://assets/sprites/crops/sunwheat_crop_ready_256.png"
+const READY_SHADOW_PATH := "res://assets/sprites/crops/sunwheat_shadow_ready_placeholder_256.png"
+const READY_COLOR_PATH := "res://assets/sprites/crops/sunwheat_crop_ready_placeholder_256.png"
+const READY_SHADOW_SHA256 := "D0021B2B906ED64F3DB2CC5258D31DB80D5EBCB2DE2D372AFAB1AEBA26DA0F65"
+const READY_COLOR_SHA256 := "5DEFE4D9A6C0FDFDC1F3332C24ABE9BE0DB7C584203CA71E468DD1396CB5B6C2"
 const BASE_POSITION := Vector2(-128.0, -232.5)
 const EMPTY_CROP_POSITION := Vector2(-128.0, -232.5)
 const GROWING_CROP_POSITION := Vector2(-127.0, -232.5)
-const READY_CROP_POSITION := Vector2(-140.0, -232.5)
+const READY_CROP_POSITION := Vector2(-128.0, -232.5)
 const SOIL_CONTACT_Y := -232.5
 
 var _failures: Array[String] = []
@@ -75,6 +77,7 @@ func _verify_states(farm_plot: Node) -> void:
 	var original_node_ids := [plot_base.get_instance_id(), crop_shadow.get_instance_id(), crop_color.get_instance_id()]
 	var original_z_indices := [plot_base.z_index, crop_shadow.z_index, crop_color.z_index]
 
+	_verify_ready_runtime_assets()
 	_expect(farm_plot.initial_visual_state == FarmPlotScript.VisualState.EMPTY, "initial visual state should default to EMPTY")
 	_verify_state(farm_plot, FarmPlotScript.VisualState.EMPTY, false, "", "")
 	for cycle in 2:
@@ -121,6 +124,11 @@ func _verify_state(farm_plot: Node, state: FarmPlotScript.VisualState, crops_vis
 	else:
 		_expect(crop_shadow.texture == null, "crop shadow texture should be empty in EMPTY")
 		_expect(crop_color.texture == null, "crop color texture should be empty in EMPTY")
+
+
+func _verify_ready_runtime_assets() -> void:
+	_expect(FileAccess.get_sha256(READY_SHADOW_PATH).to_upper() == READY_SHADOW_SHA256, "READY shadow runtime file should preserve the approved SHA-256")
+	_expect(FileAccess.get_sha256(READY_COLOR_PATH).to_upper() == READY_COLOR_SHA256, "READY color runtime file should preserve the approved SHA-256")
 
 
 func _expected_crop_position(state: FarmPlotScript.VisualState) -> Vector2:
