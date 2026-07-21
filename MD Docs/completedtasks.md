@@ -13,3 +13,4 @@ TASK-011 | Start 2026-07-21 | End 2026-07-21 | Correct the Sunwheat shadow and r
 TASK-012 | Start 2026-07-21 | End 2026-07-21 | Export the approved Sunwheat seed-bag UI icon for runtime
 TASK-013 | Start 2026-07-21 | End 2026-07-21 | Generate the empty tilled-soil plot asset
 TASK-014 | Start 2026-07-21 | End 2026-07-21 | Generate the growing Sunwheat runtime pair
+TASK-015 | Start 2026-07-21 | End 2026-07-21 | Revise the art perspective contract to TF-ART-v1.2
