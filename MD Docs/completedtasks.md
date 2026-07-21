@@ -17,3 +17,4 @@ TASK-015 | Start 2026-07-21 | End 2026-07-21 | Revise the art perspective contra
 TASK-016 | Start 2026-07-21 | End 2026-07-21 | Select a naturally rooted mature Sunwheat source as a temporary gameplay placeholder
 TASK-017 | Start 2026-07-21 | End 2026-07-21 | Export the temporary mature Sunwheat placeholder pair
 TASK-018 | Start 2026-07-21 | End 2026-07-21 | Integrate the mature Sunwheat placeholder into FarmPlot READY
+TASK-019 | Start 2026-07-21 | End 2026-07-21 | Add the data-driven FarmPlot crop lifecycle
