@@ -57,7 +57,8 @@ Create folders only when an active task needs them.
 
 - Store generation prompts, seeds, source files, and metadata in `res://assets/source/ai/`. Never generate directly into runtime folders.
 - Commit the style guide and locked J3 recipe before bulk production. Every generation records the recipe version.
-- Terrain master: transparent or tile-safe 256 × 128 diamond for a 128 × 64 runtime tile. Crops, props, and characters/pets: transparent 512 × 512 master exported to a 256 × 256 runtime canvas. Buildings: transparent 1024 × 1024 master exported to a 512 × 512 runtime canvas. UI icons: 256 × 256 master exported at 128 × 128 and 64 × 64.
+- World perspective: use a mostly overhead 2D bird's-eye view angled down slightly, similar to the camera framing of Stardew Valley but without copying its assets or style. The ground uses a screen-aligned orthogonal square grid. Sprite artwork conveys height by showing top surfaces and a small front face where useful. Do not use an isometric projection, diamond tiles, 30-degree isometric axes, or diagonal grid movement.
+- Terrain master: seamless 256 × 256 square for a 128 × 128 runtime tile. Crops, props, and characters/pets: transparent 512 × 512 master exported to a 256 × 256 runtime canvas. Buildings: transparent 1024 × 1024 master exported to a 512 × 512 runtime canvas. UI icons: 256 × 256 master exported at 128 × 128 and 64 × 64.
 - Use lossless PNG with straight alpha. Downsample with a high-quality Lanczos filter and visually inspect at logical resolution.
 - Pivot convention: bottom center at the object's ground-contact point. The pivot remains at the same normalized location across states and flips.
 - Global light: key light arrives from upper left at approximately 35° above the ground plane; cast shadows travel down and right.
