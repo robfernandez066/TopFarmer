@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://tests/visual/farm_plot_interaction_preview.gd" id="1_preview_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/terrain/meadow_grass_tile_default_128.png" id="2_meadow"]
+[ext_resource type="PackedScene" path="res://scenes/farm/farm_plot.tscn" id="3_farm_plot"]
+[ext_resource type="Script" path="res://scripts/farm/farm_plot_interaction_controller.gd" id="4_controller_script"]
+
+[node name="FarmPlotInteractionPreview" type="Node2D"]
+script = ExtResource("1_preview_script")
+
+[node name="MeadowBackground" type="TextureRect" parent="."]
+offset_right = 540.0
+offset_bottom = 960.0
+mouse_filter = 2
+texture_repeat = 2
+texture = ExtResource("2_meadow")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="FarmPlot" parent="." instance=ExtResource("3_farm_plot")]
+position = Vector2(270, 600)
+
+[node name="FarmPlotInteractionController" type="Node" parent="."]
+script = ExtResource("4_controller_script")
