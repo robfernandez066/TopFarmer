@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/farm/farm_plot.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/plots/tilled_soil_plot_empty_256.png" id="2_plot_base"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/ui_tap_soft.wav" id="3_activation_audio"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit_area"]
+size = Vector2(232, 216)
 
 [node name="FarmPlot" type="Node2D"]
 script = ExtResource("1_script")
@@ -10,6 +14,17 @@ script = ExtResource("1_script")
 texture = ExtResource("2_plot_base")
 centered = false
 position = Vector2(-128, -232.5)
+
+[node name="HitArea" type="Area2D" parent="PlotBase"]
+position = Vector2(128, 232.5)
+input_pickable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlotBase/HitArea"]
+position = Vector2(0, -112)
+shape = SubResource("RectangleShape2D_hit_area")
+
+[node name="ActivationAudio" type="AudioStreamPlayer" parent="PlotBase"]
+stream = ExtResource("3_activation_audio")
 
 [node name="CropShadow" type="Sprite2D" parent="."]
 visible = false
