@@ -22,3 +22,12 @@ If you are the Coder Agent: read MD Docs/Coder-Rules.md and MD Docs/project-cont
 | Game code, scenes, tests, localization, runtime assets | No | No | Yes | Coder only within active task |
 
 This repository is already cloned from `https://github.com/robfernandez066/TopFarmer.git`; `main` exists locally and remotely, credentials are cached, and pushes work. The Godot 4.7.1 project already exists at the root with Compatibility rendering and portrait orientation. Matching Windows x86_64 and Android export templates are installed. `/data` already contains the tracked v0 workbook, seven CSVs, seven keep-import files, and three balance scripts. A red X on those CSVs is correct. `.gitignore` covers `.godot/`, `/android/`, `export_presets.cfg`, `*.translation`, and OS junk. Never initialize, clone, or recreate this project.
+
+## Godot Human-Check Configuration Churn
+
+When the human explicitly says they opened or ran Godot for a Human check and the next Coder session finds `project.godot` as the only dirty file, inspecting that diff is pre-authorized. Do not stop to ask permission merely to inspect it.
+
+- If the diff only reorders an existing key with the identical value, changes whitespace, or otherwise makes no semantic setting change, normalize just that text back to the committed form, verify that `project.godot` is clean, mention the cleanup in the Coder report, and continue the active task.
+- If every semantic change is expressly authorized by the active task and has the exact required value, preserve it, include it in that task's commit when required, and continue.
+- Stop and request direction only when a setting value changes outside the active task, an authorized value is wrong, additional files are unexpectedly dirty, or normalizing the file would discard a meaningful human change.
+- Never use this exception to discard gameplay, balance, import, renderer, main-scene, autoload, input, export, or signing changes. Always report the inspected keys and the action taken.

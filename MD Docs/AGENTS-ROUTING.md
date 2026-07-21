@@ -29,3 +29,5 @@ Read `Coder-Rules.md`, `project-context.md`, `tasklist.md`, `decisions.md`, `Roa
 ## Session Safety
 
 Only one agent operates in the shared working folder at a time. Both agents begin with `git status`. Unknown changes stop the session. The PM closes a completed task by appending it to `completedtasks.md`, verifying the append, and only then clearing/replacing `tasklist.md`. The Coder commits directly to `main`, pushes, and records the result in `progress.md` before stopping.
+
+One narrow exception applies after the human explicitly opens or runs Godot for a Human check: when `project.godot` is the only dirty file, the Coder inspects it without asking again. Non-semantic key reordering or whitespace churn is normalized to the committed form and reported; exact active-task-authorized settings are preserved. Any out-of-scope semantic value change or additional dirty file still stops the session.
