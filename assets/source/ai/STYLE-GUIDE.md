@@ -2,7 +2,9 @@ LOCKED FOR v1 - changes require a new PM decision
 
 # TopFarmer v1 Art Style Guide
 
-Recipe version: `TF-ART-v1.1`
+Recipe version: `TF-ART-v1.2`
+
+Perspective authority: DEC-049 and DEC-050.
 
 ## Tone
 
@@ -10,13 +12,13 @@ TopFarmer is a cozy fantasy farming world with quiet wrongness beneath its rural
 
 ## Perspective and Composition
 
-- Use a mostly overhead 2D bird's-eye farm-game view with a slight downward angle.
-- Use a screen-aligned orthogonal square ground grid; TopFarmer is not isometric.
-- Show visible top surfaces and a small front face where a sprite has height.
-- Preserve a consistent overhead ground plane and object angle across every asset family.
+- Flat terrain, paths, water, and ground-flush soil plots use a straight top-down screen-aligned orthogonal square grid. They stay flush with the ground plane and have no invented front wall.
+- Crops, props, characters, and buildings use a high-angle front-elevated farm-game sprite presentation. Vertical forms rise upward on screen from a bottom-center ground contact; clear front planes carry most of the silhouette; modest top surfaces remain visible; near elements sit lower and larger; rear elements sit higher and smaller; overlaps and foreshortening establish depth.
+- Preserve this ground-versus-upright angle relationship consistently across every asset family.
+- The supplied Stardew Valley farm screenshot is a reference only for this ground-versus-upright angle relationship. TopFarmer must not copy Stardew Valley's assets, pixel-art rendering, palette, crop designs, layouts, user interface, characters, buildings, or other protected expression.
 - Favor a clean, readable mobile silhouette with one clear primary mass.
 - Keep object sprites isolated and centered on their prescribed transparent canvas; terrain fills its tile-safe square canvas.
-- Never use isometric projection, diamond tiles, 30-degree isometric axes, diagonal grid movement, fisheye distortion, front view, side view, or inconsistent perspective.
+- Never use straight-down views of upright subjects, flat radial crop rosettes, evenly spread overhead starbursts, front-facing eye-level views, pure side views, isometric projection, diamond tiles, 30-degree isometric axes, diagonal grid movement, fisheye distortion, or inconsistent perspective.
 
 ## Locked Nine-Color Palette
 
@@ -84,7 +86,9 @@ Name runtime sprites `<data_id>_<role>_<state>_<size>.png`. Omit segments that d
 Reject an asset if any answer is no:
 
 - [ ] Does it read as a 2D hand-painted fantasy cartoon with cozy rural warmth and restrained mystery?
-- [ ] Does it use the mostly overhead, slightly angled farm-game view on a screen-aligned orthogonal square ground plane?
+- [ ] If it is flat terrain, a path, water, or a ground-flush soil plot, does it use a straight top-down screen-aligned orthogonal square ground plane with no invented front wall?
+- [ ] If it is a crop, prop, character, or building, does it use the high-angle front-elevated upright-sprite rule: vertical forms rise from a bottom-center ground contact, front planes carry most of the silhouette, modest top surfaces remain visible, and overlaps and foreshortening place near elements lower and larger and rear elements higher and smaller?
+- [ ] Does every upright crop avoid reading as a flat overhead rosette or evenly spread overhead starburst, even when its canvas and ground point are mathematically correct?
 - [ ] Is it free of isometric projection, diamond tiles, 30-degree isometric axes, and diagonal grid movement?
 - [ ] Does it stay within the locked nine-color palette?
 - [ ] Is the dark-plum outline subtle and the mobile silhouette clear?
