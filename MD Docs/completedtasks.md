@@ -9,3 +9,4 @@ TASK-007 | Start 2026-07-21 | End 2026-07-21 | Generate the Sunwheat seed-bag UI
 TASK-008 | Start 2026-07-21 | End 2026-07-21 | Commit the licensed daytime-farm music reference
 TASK-009 | Start 2026-07-21 | End 2026-07-21 | Commit the licensed primary-touch SFX reference
 TASK-010 | Start 2026-07-21 | End 2026-07-21 | Export the approved meadow terrain tile for runtime
+TASK-011 | Start 2026-07-21 | End 2026-07-21 | Correct the Sunwheat shadow and runtime pair
