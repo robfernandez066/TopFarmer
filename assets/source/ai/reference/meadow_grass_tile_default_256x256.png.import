@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4peojkc2sio4"
-path="res://.godot/imported/meadow_grass_tile_default_256x128.png-c98881373de42b8816d0875e0e0c1ea7.ctex"
+uid="uid://bb0oter54kxia"
+path="res://.godot/imported/meadow_grass_tile_default_256x256.png-ace4a22cb96097e3dfefaa00418f9df9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/source/ai/reference/meadow_grass_tile_default_256x128.png"
-dest_files=["res://.godot/imported/meadow_grass_tile_default_256x128.png-c98881373de42b8816d0875e0e0c1ea7.ctex"]
+source_file="res://assets/source/ai/reference/meadow_grass_tile_default_256x256.png"
+dest_files=["res://.godot/imported/meadow_grass_tile_default_256x256.png-ace4a22cb96097e3dfefaa00418f9df9.ctex"]
 
 [params]
 

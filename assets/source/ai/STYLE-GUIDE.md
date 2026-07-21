@@ -2,7 +2,7 @@ LOCKED FOR v1 - changes require a new PM decision
 
 # TopFarmer v1 Art Style Guide
 
-Recipe version: `TF-ART-v1`
+Recipe version: `TF-ART-v1.1`
 
 ## Tone
 
@@ -10,11 +10,13 @@ TopFarmer is a cozy fantasy farming world with quiet wrongness beneath its rural
 
 ## Perspective and Composition
 
-- Use an angled top-down three-quarter orthographic view.
-- Preserve a consistent ground plane and object angle across every asset family.
+- Use a mostly overhead 2D bird's-eye farm-game view with a slight downward angle.
+- Use a screen-aligned orthogonal square ground grid; TopFarmer is not isometric.
+- Show visible top surfaces and a small front face where a sprite has height.
+- Preserve a consistent overhead ground plane and object angle across every asset family.
 - Favor a clean, readable mobile silhouette with one clear primary mass.
-- Keep sprites isolated and centered on their prescribed transparent canvas.
-- Never use fisheye distortion, front view, side view, or inconsistent perspective.
+- Keep object sprites isolated and centered on their prescribed transparent canvas; terrain fills its tile-safe square canvas.
+- Never use isometric projection, diamond tiles, 30-degree isometric axes, diagonal grid movement, fisheye distortion, front view, side view, or inconsistent perspective.
 
 ## Locked Nine-Color Palette
 
@@ -58,7 +60,7 @@ Use these colors as the controlling palette. Value and saturation shifts may sup
 
 | Asset family | Master canvas | Runtime output |
 |---|---:|---:|
-| Terrain | Transparent or tile-safe 256 x 128 diamond | 128 x 64 tile |
+| Terrain | Seamless 256 x 256 square | 128 x 128 square tile |
 | Crops, props, characters, and pets | Transparent 512 x 512 | 256 x 256 canvas |
 | Buildings | Transparent 1024 x 1024 | 512 x 512 canvas |
 | UI icons | 256 x 256 | 128 x 128 and 64 x 64 |
@@ -68,7 +70,7 @@ Downsample with a high-quality Lanczos filter and visually inspect every export 
 ## PNG and Alpha Rules
 
 - Runtime art uses lossless PNG with straight alpha.
-- Source and runtime canvases remain transparent outside the painted sprite.
+- Object-sprite source and runtime canvases remain transparent outside the painted sprite; terrain tiles remain fully opaque edge to edge.
 - Do not crop edges, pre-multiply alpha, add matte colors, or leave opaque background pixels.
 - Keep color and shadow assets separate whenever a cast or contact shadow is required.
 - Never substitute JPG, WEBP, or another lossy runtime format.
@@ -82,7 +84,8 @@ Name runtime sprites `<data_id>_<role>_<state>_<size>.png`. Omit segments that d
 Reject an asset if any answer is no:
 
 - [ ] Does it read as a 2D hand-painted fantasy cartoon with cozy rural warmth and restrained mystery?
-- [ ] Does it use the angled top-down three-quarter orthographic perspective?
+- [ ] Does it use the mostly overhead, slightly angled farm-game view on a screen-aligned orthogonal square ground plane?
+- [ ] Is it free of isometric projection, diamond tiles, 30-degree isometric axes, and diagonal grid movement?
 - [ ] Does it stay within the locked nine-color palette?
 - [ ] Is the dark-plum outline subtle and the mobile silhouette clear?
 - [ ] Is the light from upper left at approximately 35 degrees?
