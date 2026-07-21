@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/terrain/meadow_grass_tile_default_128.png" id="1_meadow"]
+[ext_resource type="PackedScene" path="res://scenes/farm/farm_plot.tscn" id="2_farm_plot"]
+
+[node name="FarmPlotStatesPreview" type="Node2D"]
+
+[node name="MeadowBackground" type="TextureRect" parent="."]
+offset_right = 540.0
+offset_bottom = 960.0
+mouse_filter = 2
+texture_repeat = 2
+texture = ExtResource("1_meadow")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="EmptyPlot" parent="." instance=ExtResource("2_farm_plot")]
+position = Vector2(270, 290)
+
+[node name="GrowingPlot" parent="." instance=ExtResource("2_farm_plot")]
+position = Vector2(270, 570)
+initial_visual_state = 1
+
+[node name="ReadyPlot" parent="." instance=ExtResource("2_farm_plot")]
+position = Vector2(270, 850)
+initial_visual_state = 2
