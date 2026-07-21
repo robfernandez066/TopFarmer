@@ -73,6 +73,9 @@ It must be a specific action with an expected result - a command to run and what
 it should print, or something to do in the game and what should happen.
 If a task genuinely cannot be verified by a non-technical human, say so
 explicitly and state what the human should ask the Coder to demonstrate instead.
+If `tasklist.md` contains a "Human check" section, the PM Loop complete report
+must explicitly tell the user to review the Coder's report for the Human check
+and perform that check before treating the task as human-approved.
 
 ## Active-Task Invariant
 
