@@ -20,4 +20,4 @@ Human check:
 - Open the guide-overlay image. Confirm the plant follows the guide's centered base and near/middle/far layers without being cut off or leaning visually to one side
 - Tell the Coder `approved` only if all three checks pass. Approval permits a later task to create the separate shadow and runtime export; it does not integrate or replace the current placeholder yet
 Depends on: TASK-025
-Notes: see DEC-047 through DEC-054 and DEC-075. This resumes the required final Sunwheat replacement now that the functional Phase 2 plot loop and camera exist. TASK-025 pinch-feel refinement remains separately deferred under DEC-074 and must be specified and resolved before Phase 2 exit.
+Notes: see DEC-047 through DEC-054 and DEC-075. This resumes the required final Sunwheat replacement now that the functional Phase 2 plot loop and camera exist. TASK-025 pinch feedback correction is precisely specified by DEC-076 and remains required as a separate task before Phase 2 exit.
