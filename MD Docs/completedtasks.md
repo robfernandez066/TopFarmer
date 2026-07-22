@@ -23,3 +23,4 @@ TASK-021 | Start 2026-07-21 | End 2026-07-21 | Connect FarmPlot activation to pl
 TASK-022 | Start 2026-07-21 | End 2026-07-21 | Add a portable monotonic in-session UTC clock
 TASK-023 | Start 2026-07-21 | End 2026-07-21 | Make the four-plot real-time farm the main game screen
 TASK-024 | Start 2026-07-21 | End 2026-07-21 | Deploy the first playable farm build to a physical Android device
+TASK-025 | Start 2026-07-22 | End 2026-07-22 | Add optional touch pan and pinch zoom to the playable farm
