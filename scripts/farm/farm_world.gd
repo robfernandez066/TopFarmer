@@ -15,6 +15,7 @@ const STARTING_PLOTS_KEY := "STARTING_PLOTS"
 @onready var _interaction_controller: FarmPlotInteractionController = $InteractionController
 
 var _session_clock: SessionUtcClock
+var _farm_camera_controller: FarmCameraController
 
 
 func _ready() -> void:
@@ -46,9 +47,24 @@ func _ready() -> void:
 			_rollback_plots()
 			return
 
+	_farm_camera_controller = _create_farm_camera_controller()
+	if _farm_camera_controller == null:
+		_report_setup_error("FarmWorld could not create its FarmCameraController")
+		_rollback_plots()
+		return
+	_farm_camera_controller.name = "FarmCameraController"
+	_farm_camera_controller.plot_input_suppression_changed.connect(_set_plot_input_suppressed)
+	_farm_camera_controller.plot_gesture_cancel_requested.connect(_cancel_pending_plot_gestures)
+	_farm_camera_controller.plot_pointer_event.connect(_route_plot_pointer_event)
+	add_child(_farm_camera_controller)
+
 
 func _create_session_utc_clock() -> SessionUtcClock:
 	return SessionUtcClock.new()
+
+
+func _create_farm_camera_controller() -> FarmCameraController:
+	return FarmCameraController.new()
 
 
 func _read_starting_plots_value() -> Variant:
@@ -87,3 +103,21 @@ func _rollback_plots() -> void:
 	for plot in _plot_layer.get_children():
 		_interaction_controller.unregister_plot(plot)
 		plot.queue_free()
+
+
+func _cancel_pending_plot_gestures() -> void:
+	for plot in _plot_layer.get_children():
+		if plot.has_method("_discard_gesture"):
+			plot.call("_discard_gesture")
+
+
+func _set_plot_input_suppressed(suppressed: bool) -> void:
+	for plot in _plot_layer.get_children():
+		var hit_area := plot.get_node_or_null(^"PlotBase/HitArea") as Area2D
+		if hit_area != null:
+			hit_area.input_pickable = not suppressed
+
+
+func _route_plot_pointer_event(event: InputEvent) -> void:
+	for plot in _plot_layer.get_children():
+		plot.call("_input", event)
