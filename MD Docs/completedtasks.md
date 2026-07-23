@@ -25,3 +25,4 @@ TASK-023 | Start 2026-07-21 | End 2026-07-21 | Make the four-plot real-time farm
 TASK-024 | Start 2026-07-21 | End 2026-07-21 | Deploy the first playable farm build to a physical Android device
 TASK-025 | Start 2026-07-22 | End 2026-07-22 | Add optional touch pan and pinch zoom to the playable farm
 TASK-026 | Start 2026-07-22 | End 2026-07-22 | Create a geometry-guided final-perspective Sunwheat candidate
+TASK-027 | Start 2026-07-22 | End 2026-07-22 | Stop plot feedback from firing during camera gestures
