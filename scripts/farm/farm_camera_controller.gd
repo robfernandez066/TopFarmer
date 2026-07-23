@@ -11,6 +11,7 @@ const MIN_ZOOM := 1.0
 const MAX_ZOOM := 2.0
 const PAN_THRESHOLD := 12.0
 const MOUSE_ZOOM_STEP := 0.1
+const CONFIRMED_TAP_META := &"farm_plot_confirmed_tap"
 const NO_TOUCH := -1
 
 var _touch_positions: Dictionary = {}
@@ -27,6 +28,8 @@ var _middle_drag_crossed_threshold := false
 var _middle_drag_start_position := Vector2.ZERO
 var _middle_drag_last_position := Vector2.ZERO
 var _left_mouse_active := false
+var _left_mouse_start_position := Vector2.ZERO
+var _left_mouse_disqualified := false
 
 
 func _ready() -> void:
@@ -51,10 +54,12 @@ func _input(event: InputEvent) -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_WINDOW_FOCUS_OUT:
+		plot_gesture_cancel_requested.emit()
 		_clear_input_state()
 
 
 func _exit_tree() -> void:
+	plot_gesture_cancel_requested.emit()
 	_clear_input_state()
 
 
@@ -67,9 +72,7 @@ func _handle_touch(event: InputEventScreenTouch) -> void:
 	if event.pressed:
 		_handle_touch_pressed(event.index, event.position)
 	else:
-		var should_route_to_plot := _handle_touch_released(event.index)
-		if should_route_to_plot:
-			_route_pointer_event_to_plot(event, event.position)
+		_handle_touch_released(event)
 
 
 func _handle_touch_pressed(touch_id: int, screen_position: Vector2) -> void:
@@ -89,15 +92,20 @@ func _handle_touch_pressed(touch_id: int, screen_position: Vector2) -> void:
 
 	# A later finger never replaces or alters the active pinch pair. It may have
 	# reached a plot picker first, so request cancellation again for that press.
+	_touch_positions[touch_id] = screen_position
 	plot_gesture_cancel_requested.emit()
 	_mark_input_handled()
 
 
-func _handle_touch_released(touch_id: int) -> bool:
+func _handle_touch_released(event: InputEventScreenTouch) -> void:
+	var touch_id := event.index
 	if not _touch_positions.has(touch_id):
 		if _camera_touch_gesture_active:
 			_mark_input_handled()
-		return false
+		return
+	if touch_id == _primary_touch_id and _pinch_touch_ids.is_empty() and not _camera_touch_gesture_active:
+		if event.position.distance_to(_primary_start_position) > PAN_THRESHOLD:
+			_begin_camera_touch_gesture()
 	_touch_positions.erase(touch_id)
 	if _pinch_touch_ids.has(touch_id):
 		var remaining_touch_id := NO_TOUCH
@@ -112,14 +120,22 @@ func _handle_touch_released(touch_id: int) -> bool:
 		else:
 			_clear_touch_state()
 		_mark_input_handled()
-		return false
+		return
 	if touch_id == _primary_touch_id:
 		var was_camera_gesture := _camera_touch_gesture_active
+		if was_camera_gesture and not _touch_positions.is_empty():
+			_primary_touch_id = int(_touch_positions.keys()[0])
+			_primary_start_position = _touch_positions[_primary_touch_id]
+			_primary_last_position = _primary_start_position
+			_mark_input_handled()
+			return
 		_clear_touch_state()
 		if was_camera_gesture:
 			_mark_input_handled()
-		return not was_camera_gesture
-	return false
+		else:
+			_route_confirmed_tap_to_plot(event, event.position)
+	elif _camera_touch_gesture_active:
+		_mark_input_handled()
 
 
 func _handle_touch_drag(event: InputEventScreenDrag) -> void:
@@ -131,6 +147,8 @@ func _handle_touch_drag(event: InputEventScreenDrag) -> void:
 		_mark_input_handled()
 		return
 	if event.index != _primary_touch_id:
+		if _camera_touch_gesture_active:
+			_mark_input_handled()
 		return
 
 	var crossed_threshold := event.position.distance_to(_primary_start_position) > PAN_THRESHOLD
@@ -141,8 +159,6 @@ func _handle_touch_drag(event: InputEventScreenDrag) -> void:
 			position -= screen_delta / zoom.x
 			_clamp_camera_position()
 		_mark_input_handled()
-	else:
-		_route_pointer_event_to_plot(event, event.position)
 	_primary_last_position = event.position
 
 
@@ -186,18 +202,32 @@ func _handle_mouse_button(event: InputEventMouseButton) -> void:
 		return
 	if event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
+			if _left_mouse_active:
+				plot_gesture_cancel_requested.emit()
 			_left_mouse_active = true
+			_left_mouse_start_position = event.position
+			_left_mouse_disqualified = false
 		elif _left_mouse_active:
+			var release_disqualified := _left_mouse_disqualified or event.position.distance_to(_left_mouse_start_position) > PAN_THRESHOLD
 			_left_mouse_active = false
-			_route_pointer_event_to_plot(event, event.position)
+			_left_mouse_start_position = Vector2.ZERO
+			_left_mouse_disqualified = false
+			if release_disqualified:
+				plot_gesture_cancel_requested.emit()
+				_mark_input_handled()
+			else:
+				_route_confirmed_tap_to_plot(event, event.position)
 	elif event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
+		plot_gesture_cancel_requested.emit()
 		_apply_zoom_at_screen_point(zoom.x + MOUSE_ZOOM_STEP, event.position)
 		_mark_input_handled()
 	elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
+		plot_gesture_cancel_requested.emit()
 		_apply_zoom_at_screen_point(zoom.x - MOUSE_ZOOM_STEP, event.position)
 		_mark_input_handled()
 	elif event.button_index == MOUSE_BUTTON_MIDDLE:
 		if event.pressed:
+			plot_gesture_cancel_requested.emit()
 			_middle_drag_active = true
 			_middle_drag_crossed_threshold = false
 			_middle_drag_start_position = event.position
@@ -210,7 +240,10 @@ func _handle_mouse_button(event: InputEventMouseButton) -> void:
 
 func _handle_mouse_motion(event: InputEventMouseMotion) -> void:
 	if _left_mouse_active:
-		_route_pointer_event_to_plot(event, event.position)
+		if event.position.distance_to(_left_mouse_start_position) > PAN_THRESHOLD and not _left_mouse_disqualified:
+			_left_mouse_disqualified = true
+			plot_gesture_cancel_requested.emit()
+		_mark_input_handled()
 		return
 	if not _middle_drag_active:
 		return
@@ -269,6 +302,8 @@ func _get_camera_viewport_size() -> Vector2:
 func _clear_input_state() -> void:
 	_clear_touch_state()
 	_left_mouse_active = false
+	_left_mouse_start_position = Vector2.ZERO
+	_left_mouse_disqualified = false
 	_middle_drag_active = false
 	_middle_drag_crossed_threshold = false
 	_middle_drag_start_position = Vector2.ZERO
@@ -296,7 +331,7 @@ func _mark_input_handled() -> void:
 		viewport.set_input_as_handled()
 
 
-func _route_pointer_event_to_plot(event: InputEvent, screen_position: Vector2) -> void:
+func _route_confirmed_tap_to_plot(event: InputEvent, screen_position: Vector2) -> void:
 	var plot_event := event.duplicate() as InputEvent
 	if plot_event is InputEventScreenTouch:
 		(plot_event as InputEventScreenTouch).position = _screen_to_world(screen_position)
@@ -306,10 +341,12 @@ func _route_pointer_event_to_plot(event: InputEvent, screen_position: Vector2) -
 		(plot_event as InputEventMouseButton).position = _screen_to_world(screen_position)
 	elif plot_event is InputEventMouseMotion:
 		(plot_event as InputEventMouseMotion).position = _screen_to_world(screen_position)
+	plot_event.set_meta(CONFIRMED_TAP_META, true)
 	plot_pointer_event.emit(plot_event)
 	_mark_input_handled()
 
 
 func _on_visibility_changed() -> void:
 	if not is_visible_in_tree():
+		plot_gesture_cancel_requested.emit()
 		_clear_input_state()

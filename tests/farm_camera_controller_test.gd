@@ -217,7 +217,7 @@ func _verify_touch_arbitration_and_cleanup() -> void:
 	var audio := drag_plot.get_node(^"PlotBase/ActivationAudio") as AudioStreamPlayer
 	audio.stop()
 	_press_plot_touch(drag_plot, _touch_event(31, drag_position, true))
-	_expect(drag_plot.scale == base_scale * 0.97 and audio.playing, "plot-origin drag may begin with one approved press response and sound")
+	_expect(drag_plot.scale == base_scale and not audio.playing, "plot-origin touch-down should remain silent and unscaled before classification")
 	var drag_event := _touch_drag(31, drag_position + Vector2(13.0, 0.0))
 	_camera._input(drag_event)
 	_expect(drag_plot.scale == base_scale, "crossing pan threshold should restore exact plot scale")

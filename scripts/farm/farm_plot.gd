@@ -18,6 +18,8 @@ const READY_CROP_POSITION := Vector2(-128.0, -232.5)
 const MAX_TIMESTAMP := 9223372036854775807
 const INT64_LIMIT_AS_FLOAT := 9223372036854775808.0
 const PRESS_SCALE_FACTOR := 0.97
+const PULSE_HALF_DURATION := 0.05
+const CONFIRMED_TAP_META := &"farm_plot_confirmed_tap"
 const NO_ACTIVE_TOUCH := -1
 
 @export var initial_visual_state: VisualState = VisualState.EMPTY
@@ -35,10 +37,11 @@ var _last_harvested_crop_id := StringName()
 var _started_at_utc := -1
 var _ready_at_utc := -1
 var _active_touch_index := NO_ACTIVE_TOUCH
-var _mouse_gesture_active := false
-var _gesture_cancelled := false
-var _feedback_active := false
-var _pre_press_scale := Vector2.ONE
+var _mouse_candidate_active := false
+var _candidate_base_scale := Vector2.ONE
+var _pulse_tween: Tween
+var _pulse_active := false
+var _pulse_base_scale := Vector2.ONE
 
 
 func _ready() -> void:
@@ -48,14 +51,12 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if not event.has_meta(CONFIRMED_TAP_META):
+		return
 	if event is InputEventScreenTouch:
-		_track_touch_event(event as InputEventScreenTouch)
-	elif event is InputEventScreenDrag:
-		_track_touch_drag(event as InputEventScreenDrag)
+		_confirm_touch_tap(event as InputEventScreenTouch)
 	elif event is InputEventMouseButton:
-		_track_mouse_button(event as InputEventMouseButton)
-	elif event is InputEventMouseMotion:
-		_track_mouse_motion(event as InputEventMouseMotion)
+		_confirm_mouse_tap(event as InputEventMouseButton)
 
 
 func _notification(what: int) -> void:
@@ -155,11 +156,9 @@ func _on_hit_area_input_event(viewport: Node, event: InputEvent, _shape_index: i
 		var touch_event := event as InputEventScreenTouch
 		if not touch_event.pressed or _active_touch_index != NO_ACTIVE_TOUCH:
 			return
-		if _mouse_gesture_active:
-			_discard_gesture()
+		_mouse_candidate_active = false
 		_active_touch_index = touch_event.index
-		_gesture_cancelled = false
-		_begin_feedback()
+		_candidate_base_scale = _stable_base_scale()
 		_mark_input_handled(viewport)
 	elif event is InputEventMouseButton:
 		var mouse_event := event as InputEventMouseButton
@@ -167,89 +166,78 @@ func _on_hit_area_input_event(viewport: Node, event: InputEvent, _shape_index: i
 			return
 		if mouse_event.button_index != MOUSE_BUTTON_LEFT or not mouse_event.pressed:
 			return
-		if _active_touch_index != NO_ACTIVE_TOUCH or _mouse_gesture_active:
+		if _active_touch_index != NO_ACTIVE_TOUCH or _mouse_candidate_active:
 			return
-		_mouse_gesture_active = true
-		_gesture_cancelled = false
-		_begin_feedback()
+		_mouse_candidate_active = true
+		_candidate_base_scale = _stable_base_scale()
 		_mark_input_handled(viewport)
 
 
-func _track_touch_event(event: InputEventScreenTouch) -> void:
+func _confirm_touch_tap(event: InputEventScreenTouch) -> void:
 	if event.index != _active_touch_index:
 		return
-	get_viewport().set_input_as_handled()
-	if event.pressed:
+	var base_scale := _candidate_base_scale
+	_active_touch_index = NO_ACTIVE_TOUCH
+	if event.pressed or event.canceled or not _is_point_inside_hit_area(event.position):
 		return
-	var should_activate := not event.canceled and not _gesture_cancelled and _is_point_inside_hit_area(event.position)
-	if not should_activate:
-		_cancel_feedback()
-	_finish_gesture(should_activate)
+	_run_confirmed_feedback(base_scale)
 
 
-func _track_touch_drag(event: InputEventScreenDrag) -> void:
-	if event.index != _active_touch_index:
-		return
-	get_viewport().set_input_as_handled()
-	if not _is_point_inside_hit_area(event.position):
-		_cancel_feedback()
-
-
-func _track_mouse_button(event: InputEventMouseButton) -> void:
+func _confirm_mouse_tap(event: InputEventMouseButton) -> void:
 	if event.device == InputEvent.DEVICE_ID_EMULATION:
 		return
 	if event.button_index != MOUSE_BUTTON_LEFT or event.pressed:
 		return
-	if not _mouse_gesture_active or _active_touch_index != NO_ACTIVE_TOUCH:
+	if not _mouse_candidate_active or _active_touch_index != NO_ACTIVE_TOUCH:
 		return
-	get_viewport().set_input_as_handled()
-	var should_activate := not _gesture_cancelled and _is_point_inside_hit_area(event.position)
-	if not should_activate:
-		_cancel_feedback()
-	_finish_gesture(should_activate)
-
-
-func _track_mouse_motion(event: InputEventMouseMotion) -> void:
-	if not _mouse_gesture_active or _active_touch_index != NO_ACTIVE_TOUCH:
-		return
+	var base_scale := _candidate_base_scale
+	_mouse_candidate_active = false
 	if not _is_point_inside_hit_area(event.position):
-		_cancel_feedback()
-
-
-func _begin_feedback() -> void:
-	_pre_press_scale = scale
-	_feedback_active = true
-	scale = _pre_press_scale * PRESS_SCALE_FACTOR
-	_activation_audio.play()
-
-
-func _cancel_feedback() -> void:
-	_gesture_cancelled = true
-	_restore_feedback()
-
-
-func _restore_feedback() -> void:
-	if not _feedback_active:
 		return
-	scale = _pre_press_scale
-	_feedback_active = false
+	_run_confirmed_feedback(base_scale)
 
 
-func _finish_gesture(should_activate: bool) -> void:
-	_restore_feedback()
-	_active_touch_index = NO_ACTIVE_TOUCH
-	_mouse_gesture_active = false
-	var emit_activation := should_activate and not _gesture_cancelled
-	_gesture_cancelled = false
-	if emit_activation:
-		activated.emit()
+func _run_confirmed_feedback(base_scale: Vector2) -> void:
+	_cancel_pulse()
+	_pulse_base_scale = base_scale
+	_pulse_active = true
+	scale = _pulse_base_scale
+	_activation_audio.play()
+	activated.emit()
+	var tween := create_tween()
+	_pulse_tween = tween
+	tween.tween_property(self, ^"scale", _pulse_base_scale * PRESS_SCALE_FACTOR, PULSE_HALF_DURATION).set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property(self, ^"scale", _pulse_base_scale, PULSE_HALF_DURATION).set_trans(Tween.TRANS_LINEAR)
+	tween.finished.connect(_on_pulse_finished.bind(tween))
+
+
+func _on_pulse_finished(completed_tween: Tween) -> void:
+	if _pulse_tween != completed_tween:
+		return
+	scale = _pulse_base_scale
+	_pulse_tween = null
+	_pulse_active = false
+
+
+func _cancel_pulse() -> void:
+	if _pulse_tween != null:
+		_pulse_tween.kill()
+		_pulse_tween = null
+	if _pulse_active:
+		scale = _pulse_base_scale
+	_pulse_active = false
+
+
+func _stable_base_scale() -> Vector2:
+	if _pulse_active:
+		return _pulse_base_scale
+	return scale
 
 
 func _discard_gesture() -> void:
-	_restore_feedback()
 	_active_touch_index = NO_ACTIVE_TOUCH
-	_mouse_gesture_active = false
-	_gesture_cancelled = false
+	_mouse_candidate_active = false
+	_cancel_pulse()
 
 
 func _is_point_inside_hit_area(viewport_position: Vector2) -> bool:
@@ -257,8 +245,6 @@ func _is_point_inside_hit_area(viewport_position: Vector2) -> bool:
 	if rectangle == null:
 		return false
 	var local_point := _hit_area.to_local(viewport_position)
-	if _feedback_active:
-		local_point *= PRESS_SCALE_FACTOR
 	var shape_point := local_point - _hit_shape.position
 	return Rect2(-rectangle.size * 0.5, rectangle.size).has_point(shape_point)
 
